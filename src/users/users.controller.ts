@@ -1,24 +1,37 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  HttpStatus,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, UserDto } from "./dto/user.dto";
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiResponse({ status: HttpStatus.CREATED, type: CreateUserDto })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: UserDto, isArray: true })
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: UserDto })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
   }
 
   // @Patch(':id')
