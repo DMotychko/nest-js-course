@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto, UserDto } from "./dto/user.dto";
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BaseQueryDto } from "../common/validator/base-query.dto";
 
 @ApiTags('users')
 @Controller('users')
@@ -24,8 +25,8 @@ export class UsersController {
 
   @ApiResponse({ status: HttpStatus.OK, type: UserDto, isArray: true })
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(query: BaseQueryDto) {
+    return this.usersService.findAll(query);
   }
 
   @ApiResponse({ status: HttpStatus.OK, type: UserDto })

@@ -9,14 +9,16 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, CreateAuthDto } from './dto/auth.dto';
+import { CreateUserDto } from "../users/dto/user.dto";
+import { ApiOkResponse } from "@nestjs/swagger";
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('/register')
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.signUpUser(createUserDto);
   }
 
   @Get()
