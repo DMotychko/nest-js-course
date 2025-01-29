@@ -1,9 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class PostDto {
   @ApiProperty({ required: true })
-  message: string;
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 
-  @ApiProperty({ required: true })
-  userId: number;
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  description: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  body: string;
 }

@@ -1,7 +1,10 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UserEntity } from "../users/entities/user.entity";
+import { UserEntity } from '../users/entities/user.entity';
+import { PostEntity } from '../posts/entities/post.entity';
+import * as process from 'node:process';
+import * as path from 'node:path';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -16,8 +19,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: postgresConfig.user,
       password: postgresConfig.password,
       database: postgresConfig.database,
-      entities: [UserEntity],
-      synchronize: true,
+      entities: [UserEntity, PostEntity],
+      migrations: [
+        path.join(process.cwd(), 'src', 'database', 'migrations', '*.ts'),
+      ],
+      synchronize: false,
     };
   }
 }
